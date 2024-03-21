@@ -12,11 +12,7 @@
   },
   "dependencies": {
     "react": "18.2.0",
-<<<<<<< HEAD:examples/GumTestApp/package.json
-    "react-native": "0.71.13",
-=======
     "react-native": "0.73.6",
->>>>>>> c7fe649 (feat: android frame 搞定):Not_Blink/package.json
     "react-native-webrtc": "*"
   },
   "devDependencies": {
