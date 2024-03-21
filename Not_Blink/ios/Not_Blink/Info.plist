@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Not_Blink</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Stooping需要使用你的媒体库发布赠送物品，发起视频聊天</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Stooping需要使用你的摄像头拍照，录视频，扫描二维码</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>如果不允许，发布物品的时候，无法自动给你填写你当前所在位置，也无法基于地理位置推荐附近的物品</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>如果不允许，发布物品的时候，无法自动给你填写你当前所在位置，也无法基于地理位置推荐附近的物品</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>如果不允许，发布物品的时候，无法自动给你填写你当前所在位置，也无法基于地理位置推荐附近的物品</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Stooping使用你的麦克风以便进行语音聊天</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Stooping需要访问相册，以便于发布赠送物品，聊天，修改个人头像时上传照片的功能</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Stooping使用通知权限，向你发送好友消息提醒，系统活动通知，"通知"可能包含提醒，声音，图标，这些可在“设置”中配置。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
+</plist>

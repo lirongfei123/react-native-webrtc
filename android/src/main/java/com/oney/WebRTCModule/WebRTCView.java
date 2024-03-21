@@ -225,7 +225,17 @@ public class WebRTCView extends ViewGroup {
         post(() -> {
             Log.d(TAG, "First frame rendered.");
             surfaceViewRenderer.setBackgroundColor(Color.TRANSPARENT);
+            this.addFrameListener();
         });
+    }
+    private void addFrameListener() {
+        surfaceViewRenderer.addFrameListener(new EglRenderer.FrameListener() {
+            @Override
+            public void onFrame(Bitmap bitmap) {
+                System.out.println(bitmap);
+                WebRTCView.this.addFrameListener();
+            }
+        }, 1);
     }
 
     /**

@@ -19,6 +19,7 @@ Pod::Spec.new do |s|
   s.libraries           = 'c', 'sqlite3', 'stdc++'
   s.framework           = 'AudioToolbox','AVFoundation', 'CoreAudio', 'CoreGraphics', 'CoreVideo', 'GLKit', 'VideoToolbox'
   s.dependency          'React-Core'
-  s.dependency          'MPImage', '~> 1.1'
+  # s.dependency          'MPImage', '~> 1.1'
+  s.dependency          'MediaPipeTasksVision'
   # s.dependency          'JitsiWebRTC', '~> 118.0.0'
 end

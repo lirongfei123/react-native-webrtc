@@ -101,6 +101,12 @@
                             } else {
                                 RCTLog(@"[VideoCaptureController] Capture started");
                                 weakSelf.running = YES;
+                                for (AVCaptureOutput *output in self->_capturer.captureSession.outputs) {
+                                
+                                  if([output isKindOfClass:AVCaptureVideoDataOutput.class]) {
+                                    ((AVCaptureVideoDataOutput*)output).videoSettings = @{(NSString *)kCVPixelBufferPixelFormatTypeKey: [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA]};
+                                   }
+                               }
                             }
                             dispatch_semaphore_signal(semaphore);
                         }];
