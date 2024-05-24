@@ -1,8 +1,13 @@
 package com.oney.WebRTCModule;
 
+import androidx.annotation.Nullable;
+
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+
+import java.util.Map;
 
 public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
     private static final String REACT_CLASS = "RTCVideoView";
@@ -11,6 +16,15 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
     public String getName() {
         return REACT_CLASS;
     }
+
+    @Nullable
+    @Override
+    public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
+        return MapBuilder.of(
+                "MediaPipeEventFaceLandmarker",
+                MapBuilder.of("registrationName", "onFaceLandmarker"));
+    }
+
 
     @Override
     public WebRTCView createViewInstance(ThemedReactContext context) {
@@ -32,6 +46,11 @@ public class RTCVideoViewManager extends SimpleViewManager<WebRTCView> {
     @ReactProp(name = "mirror")
     public void setMirror(WebRTCView view, boolean mirror) {
         view.setMirror(mirror);
+    }
+
+    @ReactProp(name = "mediapipe")
+    public void setMediaPipe(WebRTCView view, boolean mediapipe) {
+        view.setMediaPipe(mediapipe);
     }
 
     /**

@@ -69,9 +69,9 @@ function App(): React.JSX.Element {
         <RTCView
           streamURL={stream.toURL()}
           mediapipe={true}
-          onMediaPipe={(data) => {
-            console.log(data.nativeEvent.points);
-            // setPoints(data.nativeEvent.points);
+          onFaceLandmarker={(data) => {
+            // console.log(data.nativeEvent.points);
+            setPoints(data.nativeEvent.points);
           }}
           style={styles.stream} />
       }

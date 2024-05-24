@@ -9,11 +9,25 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.uimanager.UIManagerHelper;
+import com.facebook.react.uimanager.UIManagerModule;
+import com.facebook.react.uimanager.events.EventDispatcher;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.mediapipe.framework.image.BitmapImageBuilder;
 import com.google.mediapipe.framework.image.MPImage;
+import com.google.mediapipe.tasks.components.containers.NormalizedLandmark;
 import com.google.mediapipe.tasks.core.BaseOptions;
 import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarker;
 import com.google.mediapipe.tasks.vision.facelandmarker.FaceLandmarkerResult;
@@ -30,6 +44,8 @@ import org.webrtc.VideoTrack;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,6 +77,10 @@ public class WebRTCView extends ViewGroup {
      */
     private static int surfaceViewRendererInstances;
     private  FaceLandmarker faceLandmarker;
+    private int surfaceId;
+    private EventDispatcher eventDispatcher;
+
+    private boolean enableMediapipe;
 
     /**
      * The height of the last video frame rendered by
@@ -160,6 +180,11 @@ public class WebRTCView extends ViewGroup {
 
         setMirror(false);
         setScalingType(DEFAULT_SCALING_TYPE);
+        ReactContext reactContext = (ReactContext) getContext();
+        EventDispatcher mEventDispatcher = UIManagerHelper.getEventDispatcherForReactTag(reactContext, getId());
+        int surfaceId = UIManagerHelper.getSurfaceId(reactContext);
+        this.eventDispatcher = mEventDispatcher;
+        this.surfaceId = surfaceId;
     }
 
     /**
@@ -233,15 +258,6 @@ public class WebRTCView extends ViewGroup {
         post(() -> {
             Log.d(TAG, "First frame rendered.");
             surfaceViewRenderer.setBackgroundColor(Color.TRANSPARENT);
-            BaseOptions.Builder baseOptionBuilder = BaseOptions.builder();
-            baseOptionBuilder.setModelAssetPath("face_landmarker.task");
-            BaseOptions baseOptions = baseOptionBuilder.build();
-            FaceLandmarker.FaceLandmarkerOptions.Builder optionsBuilder = FaceLandmarker.FaceLandmarkerOptions.builder();
-            optionsBuilder.setBaseOptions(baseOptions);
-            FaceLandmarker.FaceLandmarkerOptions options = optionsBuilder.build();
-            FaceLandmarker faceLandmarker =
-                    FaceLandmarker.createFromOptions(getContext(), options);
-            this.faceLandmarker = faceLandmarker;
             this.addFrameListener();
         });
     }
@@ -249,10 +265,40 @@ public class WebRTCView extends ViewGroup {
         surfaceViewRenderer.addFrameListener(new EglRenderer.FrameListener() {
             @Override
             public void onFrame(Bitmap bitmap) {
-//                System.out.println(bitmap);
-//                MPImage mpImage = new BitmapImageBuilder(bitmap).build();
-//                FaceLandmarkerResult result = WebRTCView.this.faceLandmarker.detect(mpImage);
-                WebRTCView.this.addFrameListener();
+                ReactContext reactContext = (ReactContext) getContext();
+                reactContext.runOnNativeModulesQueueThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (WebRTCView.this.enableMediapipe && WebRTCView.this.faceLandmarker != null) {
+                            MPImage mpImage = new BitmapImageBuilder(bitmap).build();
+                            FaceLandmarkerResult result = WebRTCView.this.faceLandmarker.detect(mpImage);
+                            List<List<NormalizedLandmark>> list = result.faceLandmarks();
+                            if (list.size() > 0) {
+                                WritableArray arrayList = Arguments.createArray();
+                                for (int i = 0; i < list.size(); i++) {
+                                    List<NormalizedLandmark> item = list.get(i);
+                                    WritableArray itemList = Arguments.createArray();
+                                    for (int j = 0; j < item.size(); j++) {
+                                        NormalizedLandmark point = item.get(i);
+                                        WritableMap pointMap = Arguments.createMap();
+                                        pointMap.putDouble("x", point.x());
+                                        pointMap.putDouble("y", point.y());
+                                        pointMap.putDouble("z", point.z());
+                                        itemList.pushMap(pointMap);
+                                    }
+                                    arrayList.pushArray(itemList);
+                                }
+
+                                if (result.faceLandmarks().size() > 0) {
+                                    WritableMap event = Arguments.createMap();
+                                    event.putArray("points", arrayList);
+                                    WebRTCView.this.eventDispatcher.dispatchEvent(new MediaPipeEvent(WebRTCView.this.surfaceId, getId(), event));
+                                }
+                            }
+                        }
+                        WebRTCView.this.addFrameListener();
+                    }
+                });
             }
         }, 1);
     }
@@ -414,6 +460,24 @@ public class WebRTCView extends ViewGroup {
         }
     }
 
+    public void setMediaPipe(boolean mediapipe) {
+        this.enableMediapipe = mediapipe;
+        if (mediapipe) {
+            if (this.faceLandmarker == null) {
+                BaseOptions.Builder baseOptionBuilder = BaseOptions.builder();
+                baseOptionBuilder.setModelAssetPath("face_landmarker.task");
+                BaseOptions baseOptions = baseOptionBuilder.build();
+                FaceLandmarker.FaceLandmarkerOptions.Builder optionsBuilder = FaceLandmarker.FaceLandmarkerOptions.builder();
+                optionsBuilder.setBaseOptions(baseOptions);
+                FaceLandmarker.FaceLandmarkerOptions options = optionsBuilder.build();
+                FaceLandmarker faceLandmarker =
+                        FaceLandmarker.createFromOptions(getContext(), options);
+                this.faceLandmarker = faceLandmarker;
+            }
+            this.addFrameListener();
+        }
+    }
+
     /**
      * In the fashion of
      * https://www.w3.org/TR/html5/embedded-content-0.html#dom-video-videowidth
@@ -550,6 +614,9 @@ public class WebRTCView extends ViewGroup {
 
             try {
                 surfaceViewRenderer.init(sharedContext, rendererEvents);
+                if (this.enableMediapipe) {
+                    this.addFrameListener();
+                }
                 surfaceViewRendererInstances++;
             } catch (Exception e) {
                 Logging.e(

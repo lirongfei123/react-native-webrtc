@@ -11,10 +11,9 @@
 #import <WebRTC/RTCCVPixelBuffer.h>
 #import <WebRTC/RTCVideoFrame.h>
 #import <WebRTC/RTCVideoTrack.h>
-#import "RTCVideoSource+EmitFrame.h"
 #import "RTCVideoViewManager.h"
 #import "WebRTCModule.h"
-
+#import "RTCMTLVideoViewMediaPipe.h"
 /**
  * In the fashion of
  * https://www.w3.org/TR/html5/embedded-content-0.html#dom-video-videowidth
@@ -70,9 +69,9 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
  * {@link #_videoSize}.
  */
 #if !TARGET_OS_OSX
-@property(nonatomic, readonly) __kindof UIView<RTCVideoRenderer> *videoView;
+@property(nonatomic, readonly) __kindof UIView<RTCVideoRendererMidiaPipe> *videoView;
 #else
-@property(nonatomic, readonly) __kindof NSView<RTCVideoRenderer> *videoView;
+@property(nonatomic, readonly) __kindof NSView<RTCVideoRendererMidiaPipe> *videoView;
 #endif
 
 /**
@@ -98,9 +97,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 
 
 - (void)setOnFaceLandmarker:(RCTDirectEventBlock)onFaceLandmarker {
-    if (onFaceLandmarker != NULL) {
-        [RTCVideoSource setOnFaceLandmarker:onFaceLandmarker];
-    }
+    [self.videoView setFaceLandmarkerCallback:onFaceLandmarker];
 }
 
 /**
@@ -144,7 +141,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 #if !TARGET_OS_OSX
-        RTCMTLVideoView *subview = [[RTCMTLVideoView alloc] initWithFrame:CGRectZero];
+        RTCMTLVideoView *subview = [[RTCMTLVideoViewMediaPipe alloc] initWithFrame:CGRectZero];
         subview.delegate = self;
         _videoView = subview;
 #else
@@ -321,7 +318,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
                                                                  rotation:RTCVideoRotation_0
                                                               timeStampNs:time] newI420VideoFrame];
 
-            [self.videoView renderFrame:frame];
+            [self.videoView renderFirstFrame:frame pixelBuffer:pixelBuffer];
 
             CVPixelBufferRelease(pixelBuffer);
         }
