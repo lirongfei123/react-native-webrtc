@@ -12,6 +12,7 @@
 @protocol RTCVideoRendererMidiaPipe<RTCVideoRenderer>
 - (void)renderFirstFrame:(RTCVideoFrame *)frame pixelBuffer:(CVPixelBufferRef)pixelBuffer;
 - (void)setFaceLandmarkerCallback:(RCTDirectEventBlock)onFaceLandmarker;
+- (void)setMediaPipeEnable:(bool)mediapipe;
 @end
 
 NS_ASSUME_NONNULL_BEGIN

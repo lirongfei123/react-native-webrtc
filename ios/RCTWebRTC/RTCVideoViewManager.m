@@ -54,6 +54,8 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
  * applications choose to mirror the front/user-facing camera.
  */
 @property(nonatomic) BOOL mirror;
+@property(nonatomic) BOOL mediapipe;
+
 
 /**
  * In the fashion of
@@ -99,7 +101,9 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 - (void)setOnFaceLandmarker:(RCTDirectEventBlock)onFaceLandmarker {
     [self.videoView setFaceLandmarkerCallback:onFaceLandmarker];
 }
-
+- (void)setMediapipe:(BOOL)mediapipe {
+    [self.videoView setMediaPipeEnable:mediapipe];
+}
 /**
  * Tells this view that its window object changed.
  */
@@ -392,6 +396,7 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_VIEW_PROPERTY(mirror, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(mediapipe, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onFaceLandmarker, RCTBubblingEventBlock)
 
 /**

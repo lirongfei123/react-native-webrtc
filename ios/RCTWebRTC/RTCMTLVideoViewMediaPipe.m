@@ -9,12 +9,27 @@
 #import <MediaPipeTasksVision/MediaPipeTasksVision.h>
 @interface RTCMTLVideoViewMediaPipe()
 @property(nonatomic, strong) MPPFaceLandmarker *faceLandmarker;
+@property(nonatomic, assign) bool mediapipe;
 @property (nonatomic, copy) RCTDirectEventBlock onFaceLandmarker;
 @end
 
 @implementation RTCMTLVideoViewMediaPipe
 - (void)setFaceLandmarkerCallback:(RCTDirectEventBlock)onFaceLandmarker {
     self.onFaceLandmarker = onFaceLandmarker;
+}
+- (void)setMediaPipeEnable:(bool)mediapipe {
+    self.mediapipe = mediapipe;
+    if (mediapipe) {
+        if (self.faceLandmarker == NULL) {
+            MPPFaceLandmarkerOptions *options = [[MPPFaceLandmarkerOptions alloc] init];
+            options.numFaces = 1;
+            options.baseOptions.modelAssetPath = [[NSBundle mainBundle] pathForResource:@"face_landmarker" ofType:@"task"];
+            options.runningMode = MPPRunningModeImage;
+            NSError *err;
+            MPPFaceLandmarker *faceLandmarker = [[MPPFaceLandmarker alloc] initWithOptions:options error:&err];
+            self.faceLandmarker = faceLandmarker;
+        }
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -26,20 +41,13 @@
 
 - (void)renderFirstFrame:(RTCVideoFrame *)frame pixelBuffer:(CVPixelBufferRef)pixelBuffer {
     [super renderFrame:frame];
-    if (self.faceLandmarker == NULL) {
-        NSLog(@"==========+%@", frame);
-        MPPFaceLandmarkerOptions *options = [[MPPFaceLandmarkerOptions alloc] init];
-        options.numFaces = 1;
-        options.baseOptions.modelAssetPath = [[NSBundle mainBundle] pathForResource:@"face_landmarker" ofType:@"task"];
-        options.runningMode = MPPRunningModeImage;
-        NSError *err;
-        MPPFaceLandmarker *faceLandmarker = [[MPPFaceLandmarker alloc] initWithOptions:options error:&err];
-        self.faceLandmarker = faceLandmarker;
-    }
     [self emitEvent:pixelBuffer];
 }
 
 - (void)emitEvent: (CVPixelBufferRef)pixelBuffer {
+    if (!self.mediapipe) {
+        return;
+    }
     CVPixelBufferRetain(pixelBuffer);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSError *err;
@@ -57,13 +65,10 @@
                     self.onFaceLandmarker(@{
                         @"points": points
                     });
-                    
                 }
-                
             }
         }
         CVPixelBufferRelease(pixelBuffer);
-        
     });
 }
 
