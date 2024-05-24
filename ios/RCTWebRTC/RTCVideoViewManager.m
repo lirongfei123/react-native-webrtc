@@ -11,7 +11,7 @@
 #import <WebRTC/RTCCVPixelBuffer.h>
 #import <WebRTC/RTCVideoFrame.h>
 #import <WebRTC/RTCVideoTrack.h>
-
+#import "RTCVideoSource+EmitFrame.h"
 #import "RTCVideoViewManager.h"
 #import "WebRTCModule.h"
 
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 #else
 @interface RTCVideoView : NSView<RTCVideoViewDelegate>
 #endif
-
+@property (nonatomic, copy) RCTDirectEventBlock onFaceLandmarker;
 /**
  * The indicator which determines whether this {@code RTCVideoView} is to mirror
  * the video specified by {@link #videoTrack} during its rendering. Typically,
@@ -95,6 +95,13 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 }
 
 @synthesize videoView = _videoView;
+
+
+- (void)setOnFaceLandmarker:(RCTDirectEventBlock)onFaceLandmarker {
+    if (onFaceLandmarker != NULL) {
+        [RTCVideoSource setOnFaceLandmarker:onFaceLandmarker];
+    }
+}
 
 /**
  * Tells this view that its window object changed.
@@ -359,6 +366,11 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 
 @end
 
+@interface OfflineWebviewViewManager : RCTViewManager
+@property (nonatomic, copy) RCTDirectEventBlock onFaceLandmarker;
+@end
+    
+    
 @implementation RTCVideoViewManager
 
 RCT_EXPORT_MODULE()
@@ -375,12 +387,15 @@ RCT_EXPORT_MODULE()
 #endif
     return v;
 }
-
+- (NSArray<NSString *> *)customBubblingEventTypes {
+    return @[@"onFaceLandmarker"];
+}
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
 }
 
 RCT_EXPORT_VIEW_PROPERTY(mirror, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(onFaceLandmarker, RCTBubblingEventBlock)
 
 /**
  * In the fashion of

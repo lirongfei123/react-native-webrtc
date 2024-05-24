@@ -1,4 +1,6 @@
 Documentation/
+Not_Blink
+test_webrtc
 examples/
 apple/WebRTC.xcframework
 apple/WebRTC.dSYMs

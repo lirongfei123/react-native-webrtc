@@ -38,7 +38,9 @@ target 'Not_Blink' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-
+  pod 'RNOpencv3', :path => '../node_modules/react-native-opencv3/ios', :subspecs => [
+        'CvCamera'
+  ]  
   target 'Not_BlinkTests' do
     inherit! :complete
     # Pods for testing

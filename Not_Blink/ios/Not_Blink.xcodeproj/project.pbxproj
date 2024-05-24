@@ -13,6 +13,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Not_Blink-Not_BlinkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Not_Blink-Not_BlinkTests.a */; };
+		7E409C1C2BB01DD80089C5BA /* face_landmarker.task in Resources */ = {isa = PBXBuildFile; fileRef = 7E409C1B2BB01DD80089C5BA /* face_landmarker.task */; };
+		7E64BC9D2BB05443001DE1D6 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E409C172BB01BD30089C5BA /* WebRTC.xcframework */; };
+		7E64BC9E2BB05443001DE1D6 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7E409C172BB01BD30089C5BA /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7E64BCAF2BB06AC5001DE1D6 /* subzero.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E64BCAB2BB06AC5001DE1D6 /* subzero.png */; };
+		7E64BCB02BB06AC5001DE1D6 /* 3m.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E64BCAC2BB06AC5001DE1D6 /* 3m.png */; };
+		7E64BCB12BB06AC5001DE1D6 /* anti_covid.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E64BCAD2BB06AC5001DE1D6 /* anti_covid.png */; };
+		7E64BCB22BB06AC5001DE1D6 /* white_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E64BCAE2BB06AC5001DE1D6 /* white_mask.png */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +32,20 @@
 			remoteInfo = Not_Blink;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7E64BC9F2BB05443001DE1D6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7E64BC9E2BB05443001DE1D6 /* WebRTC.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* Not_BlinkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Not_BlinkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +62,12 @@
 		5709B34CF0A7D63546082F79 /* Pods-Not_Blink.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Not_Blink.release.xcconfig"; path = "Target Support Files/Pods-Not_Blink/Pods-Not_Blink.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Not_Blink-Not_BlinkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Not_Blink-Not_BlinkTests.debug.xcconfig"; path = "Target Support Files/Pods-Not_Blink-Not_BlinkTests/Pods-Not_Blink-Not_BlinkTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-Not_Blink.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Not_Blink.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E409C172BB01BD30089C5BA /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WebRTC.xcframework; path = Pods/WebRTC.xcframework; sourceTree = "<group>"; };
+		7E409C1B2BB01DD80089C5BA /* face_landmarker.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = face_landmarker.task; sourceTree = "<group>"; };
+		7E64BCAB2BB06AC5001DE1D6 /* subzero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = subzero.png; sourceTree = "<group>"; };
+		7E64BCAC2BB06AC5001DE1D6 /* 3m.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3m.png; sourceTree = "<group>"; };
+		7E64BCAD2BB06AC5001DE1D6 /* anti_covid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = anti_covid.png; sourceTree = "<group>"; };
+		7E64BCAE2BB06AC5001DE1D6 /* white_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_mask.png; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Not_Blink/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Not_Blink-Not_BlinkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Not_Blink-Not_BlinkTests.release.xcconfig"; path = "Target Support Files/Pods-Not_Blink-Not_BlinkTests/Pods-Not_Blink-Not_BlinkTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -60,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E64BC9D2BB05443001DE1D6 /* WebRTC.xcframework in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-Not_Blink.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +121,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				7E409C1B2BB01DD80089C5BA /* face_landmarker.task */,
 			);
 			name = Not_Blink;
 			sourceTree = "<group>";
@@ -100,12 +129,24 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7E409C172BB01BD30089C5BA /* WebRTC.xcframework */,
 				FA7A2CDB2BA9A15C008D920F /* WebRTC.xcframework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-Not_Blink.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-Not_Blink-Not_BlinkTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7E64BCAA2BB06A6C001DE1D6 /* faceavatars */ = {
+			isa = PBXGroup;
+			children = (
+				7E64BCAC2BB06AC5001DE1D6 /* 3m.png */,
+				7E64BCAD2BB06AC5001DE1D6 /* anti_covid.png */,
+				7E64BCAB2BB06AC5001DE1D6 /* subzero.png */,
+				7E64BCAE2BB06AC5001DE1D6 /* white_mask.png */,
+			);
+			path = faceavatars;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -118,6 +159,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7E64BCAA2BB06A6C001DE1D6 /* faceavatars */,
 				13B07FAE1A68108700A75B9A /* Not_Blink */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* Not_BlinkTests */,
@@ -185,6 +227,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				7E64BC9F2BB05443001DE1D6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -243,8 +286,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E64BCB02BB06AC5001DE1D6 /* 3m.png in Resources */,
+				7E64BCAF2BB06AC5001DE1D6 /* subzero.png in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				7E64BCB12BB06AC5001DE1D6 /* anti_covid.png in Resources */,
+				7E64BCB22BB06AC5001DE1D6 /* white_mask.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				7E409C1C2BB01DD80089C5BA /* face_landmarker.task in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +301,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -263,7 +311,7 @@
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
@@ -347,7 +395,7 @@
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -357,7 +405,7 @@
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Not_Blink/Pods-Not_Blink-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Not_Blink/Pods-Not_Blink-resources.sh\"\n";
 			showEnvVarsInLog = 0;
@@ -471,6 +519,7 @@
 				DEVELOPMENT_TEAM = 4SGB8CDPR8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Not_Blink/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -481,7 +530,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = Not_Blink;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -498,6 +547,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4SGB8CDPR8;
 				INFOPLIST_FILE = Not_Blink/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -508,7 +558,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.--PRODUCT-NAME-rfc1034identifier-";
 				PRODUCT_NAME = Not_Blink;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -584,7 +634,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -652,7 +705,10 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

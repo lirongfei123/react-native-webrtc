@@ -1,5 +1,5 @@
 require 'json'
-
+source = 'https://github.com/yinrui-keji/ioslibrary'
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
 Pod::Spec.new do |s|
@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.libraries           = 'c', 'sqlite3', 'stdc++'
   s.framework           = 'AudioToolbox','AVFoundation', 'CoreAudio', 'CoreGraphics', 'CoreVideo', 'GLKit', 'VideoToolbox'
   s.dependency          'React-Core'
-  # s.dependency          'MPImage', '~> 1.1'
   s.dependency          'MediaPipeTasksVision'
-  # s.dependency          'JitsiWebRTC', '~> 118.0.0'
+  s.dependency          'YinruikeWebRTCCustomFrame', '~> 118.0.0'
 end

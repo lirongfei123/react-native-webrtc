@@ -6,7 +6,8 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import * as RNFS from 'react-native-fs';
 import {
   Button,
   SafeAreaView,
@@ -15,9 +16,13 @@ import {
   View,
   Text,
   StatusBar,
+  Image,
+  Platform,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { mediaDevices, RTCView } from 'react-native-webrtc';
+import { mediaDevices, RTCView, FaceAvatarView } from 'react-native-webrtc';
+const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
+const downloadAssetSource = require('react-native-opencv3/downloadAssetSource');
 
 const App: () => React$Node = () => {
   const [stream, setStream] = useState(null);
@@ -28,7 +33,7 @@ const App: () => React$Node = () => {
       try {
         s = await mediaDevices.getUserMedia({ video: true });
         setStream(s);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
     }
@@ -40,24 +45,33 @@ const App: () => React$Node = () => {
       setStream(null);
     }
   };
+  useEffect(() => {
+  }, []);
+  const [points, setPoints] = useState([]);
+  console.log(FaceAvatarView);
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.body}>
-      {
-        stream &&
+        {
+          stream &&
           <RTCView
             streamURL={stream.toURL()}
+            onFaceLandmarker={(data) => {
+              // console.log(data.nativeEvent.points);
+              setPoints(data.nativeEvent.points);
+            }}
             style={styles.stream} />
-      }
+        }
+        <FaceAvatarView name="aaa" points={points}></FaceAvatarView>
         <View
           style={styles.footer}>
           <Button
-            title = "Start"
-            onPress = {start} />
+            title="Start"
+            onPress={start} />
           <Button
-            title = "Stop"
-            onPress = {stop} />
+            title="Stop"
+            onPress={stop} />
         </View>
       </SafeAreaView>
     </>
@@ -70,7 +84,12 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill
   },
   stream: {
-    flex: 1
+    position: 'absolute',
+    top: 20,
+    width: 300,
+    height: 300,
+    left: 0,
+    right: 0
   },
   footer: {
     backgroundColor: Colors.lighter,
