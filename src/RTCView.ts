@@ -59,7 +59,7 @@ interface RTCVideoViewProps extends ViewProps {
    * zOrder: number
    */
   zOrder?: number;
-  onFaceLandmarker: any
+  onFaceLandmarker?: any
   mediapipe?: boolean
 }
 

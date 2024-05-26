@@ -1,7 +1,7 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
-
+#import <MediaPipeTasksVision/MediaPipeTasksVision.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -11,6 +11,17 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
+  MPPFaceLandmarkerOptions *options = [[MPPFaceLandmarkerOptions alloc] init];
+//  options.baseOptions.modelAssetPath = modelPath;
+  options.numFaces = 1;
+  NSString *modelPath = [[NSBundle mainBundle] pathForResource:@"face_landmarker" ofType:@"task"];
+  BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:modelPath];
+  options.runningMode = MPPRunningModeImage;
+  options.baseOptions.modelAssetPath = modelPath;
+  NSError *err;
+MPPFaceLandmarker *faceDetector =
+        [[MPPFaceLandmarker alloc] initWithOptions:options error:nil];
+  
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
