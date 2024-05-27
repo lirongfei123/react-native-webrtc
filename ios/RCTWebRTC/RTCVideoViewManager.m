@@ -98,12 +98,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 @synthesize videoView = _videoView;
 
 
-- (void)setOnFaceLandmarker:(RCTDirectEventBlock)onFaceLandmarker {
-    [self.videoView setFaceLandmarkerCallback:onFaceLandmarker];
-}
-- (void)setMediapipe:(BOOL)mediapipe {
-    [self.videoView setMediaPipeEnable:mediapipe];
-}
+
 /**
  * Tells this view that its window object changed.
  */
@@ -145,7 +140,13 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 #if !TARGET_OS_OSX
-        RTCMTLVideoView *subview = [[RTCMTLVideoViewMediaPipe alloc] initWithFrame:CGRectZero];
+        RTCMTLVideoViewMediaPipe *subview = [[RTCMTLVideoViewMediaPipe alloc] initWithFrame:CGRectZero];
+        [subview setGetOnFaceLandmarkerBlock:^RCTDirectEventBlock{
+            return self.onFaceLandmarker;
+        }];
+        [subview setGetMediaPipeEnableBlock:^BOOL{
+            return self.mediapipe;
+        }];
         subview.delegate = self;
         _videoView = subview;
 #else
@@ -244,6 +245,17 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 #else
         self.needsLayout = YES;
 #endif
+    }
+}
+- (void)setOnFaceLandmarker:(RCTDirectEventBlock)onFaceLandmarker {
+    if (_onFaceLandmarker != onFaceLandmarker) {
+        _onFaceLandmarker = onFaceLandmarker;
+    }
+    
+}
+- (void)setMediapipe:(BOOL)mediapipe {
+    if (_mediapipe != mediapipe) {
+        _mediapipe = mediapipe;
     }
 }
 

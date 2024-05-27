@@ -8,11 +8,16 @@
 #import <WebRTC/WebRTC.h>
 
 #import <React/RCTView.h>
+typedef RCTDirectEventBlock (^GetRTCViewOnFaceLandmarkerBlock)(void);
+typedef BOOL (^GetRTCViewMediapipeBlock)(void);
 
 @protocol RTCVideoRendererMidiaPipe<RTCVideoRenderer>
 - (void)renderFirstFrame:(RTCVideoFrame *)frame pixelBuffer:(CVPixelBufferRef)pixelBuffer;
-- (void)setFaceLandmarkerCallback:(RCTDirectEventBlock)onFaceLandmarker;
-- (void)setMediaPipeEnable:(bool)mediapipe;
+
+- (void)setGetOnFaceLandmarkerBlock:(GetRTCViewOnFaceLandmarkerBlock)getOnFaceLandmarker;
+- (void)setGetMediaPipeEnableBlock:(GetRTCViewMediapipeBlock)getMediaPipeEnable;
+
+
 @end
 
 NS_ASSUME_NONNULL_BEGIN

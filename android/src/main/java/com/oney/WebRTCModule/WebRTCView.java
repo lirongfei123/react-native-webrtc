@@ -273,13 +273,14 @@ public class WebRTCView extends ViewGroup {
                             MPImage mpImage = new BitmapImageBuilder(bitmap).build();
                             FaceLandmarkerResult result = WebRTCView.this.faceLandmarker.detect(mpImage);
                             List<List<NormalizedLandmark>> list = result.faceLandmarks();
-                            if (list.size() > 0) {
+                            WritableMap event = Arguments.createMap();
+                            if (!list.isEmpty()) {
                                 WritableArray arrayList = Arguments.createArray();
                                 for (int i = 0; i < list.size(); i++) {
                                     List<NormalizedLandmark> item = list.get(i);
                                     WritableArray itemList = Arguments.createArray();
                                     for (int j = 0; j < item.size(); j++) {
-                                        NormalizedLandmark point = item.get(i);
+                                        NormalizedLandmark point = item.get(j);
                                         WritableMap pointMap = Arguments.createMap();
                                         pointMap.putDouble("x", point.x());
                                         pointMap.putDouble("y", point.y());
@@ -288,13 +289,11 @@ public class WebRTCView extends ViewGroup {
                                     }
                                     arrayList.pushArray(itemList);
                                 }
-
-                                if (result.faceLandmarks().size() > 0) {
-                                    WritableMap event = Arguments.createMap();
-                                    event.putArray("points", arrayList);
-                                    WebRTCView.this.eventDispatcher.dispatchEvent(new MediaPipeEvent(WebRTCView.this.surfaceId, getId(), event));
-                                }
+                                event.putArray("points", arrayList);
+                            } else {
+                                event.putArray("points", Arguments.createArray());
                             }
+                            WebRTCView.this.eventDispatcher.dispatchEvent(new MediaPipeEvent(WebRTCView.this.surfaceId, getId(), event));
                         }
                         WebRTCView.this.addFrameListener();
                     }
