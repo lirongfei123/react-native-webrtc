@@ -45,6 +45,7 @@ import org.webrtc.VideoTrack;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -81,6 +82,11 @@ public class WebRTCView extends ViewGroup {
     private EventDispatcher eventDispatcher;
 
     private boolean enableMediapipe;
+
+    private ArrayList<String> resultTypes = new ArrayList<String>(Arrays.asList("points"));
+
+    private HashMap<String, ArrayList<Integer>> meshAnnotationsModel = MediaPipeUtils.getMeshAnnotations();
+    private HashMap<String, ArrayList<Integer>> faceMeshModel = MediaPipeUtils.getFaceMeshModel();
 
     /**
      * The height of the last video frame rendered by
@@ -272,26 +278,40 @@ public class WebRTCView extends ViewGroup {
                         if (WebRTCView.this.enableMediapipe && WebRTCView.this.faceLandmarker != null) {
                             MPImage mpImage = new BitmapImageBuilder(bitmap).build();
                             FaceLandmarkerResult result = WebRTCView.this.faceLandmarker.detect(mpImage);
-                            List<List<NormalizedLandmark>> list = result.faceLandmarks();
+                            List<List<NormalizedLandmark>> faceResult = result.faceLandmarks();
                             WritableMap event = Arguments.createMap();
-                            if (!list.isEmpty()) {
-                                WritableArray arrayList = Arguments.createArray();
-                                for (int i = 0; i < list.size(); i++) {
-                                    List<NormalizedLandmark> item = list.get(i);
-                                    WritableArray itemList = Arguments.createArray();
-                                    for (int j = 0; j < item.size(); j++) {
-                                        NormalizedLandmark point = item.get(j);
-                                        WritableMap pointMap = Arguments.createMap();
-                                        pointMap.putDouble("x", point.x());
-                                        pointMap.putDouble("y", point.y());
-                                        pointMap.putDouble("z", point.z());
-                                        itemList.pushMap(pointMap);
+                            if (!faceResult.isEmpty()) {
+                                List<NormalizedLandmark> list = faceResult.get(0);
+                                for (int i = 0; i < WebRTCView.this.resultTypes.size(); i++) {
+                                    String modelName = WebRTCView.this.resultTypes.get(i);
+                                    if (modelName.equals("points")) {
+                                        WritableArray arrayList = Arguments.createArray();
+                                        for (int j = 0; j < list.size(); j++) {
+                                            NormalizedLandmark point = list.get(j);
+                                            WritableArray pointArr = Arguments.createArray();
+                                            pointArr.pushDouble( point.x());
+                                            pointArr.pushDouble(point.y());
+                                            pointArr.pushDouble(point.z());
+                                            arrayList.pushArray(pointArr);
+                                        }
+                                        event.putArray("points", arrayList);
+                                    } else if (modelName.equals("faceMesh")) {
+                                        event.putMap("faceMesh", MediaPipeUtils.convertResultToModel(list, WebRTCView.this.faceMeshModel));
+                                    } else if (modelName.equals("meshAnnotations")) {
+                                        event.putMap("meshAnnotations", MediaPipeUtils.convertResultToModel(list, WebRTCView.this.meshAnnotationsModel));
                                     }
-                                    arrayList.pushArray(itemList);
                                 }
-                                event.putArray("points", arrayList);
                             } else {
-                                event.putArray("points", Arguments.createArray());
+                                for (int i = 0; i < WebRTCView.this.resultTypes.size(); i++) {
+                                    String modelName = WebRTCView.this.resultTypes.get(i);
+                                    if (modelName.equals("points")) {
+                                        event.putArray("points", Arguments.createArray());
+                                    } else if (modelName.equals("faceMesh")) {
+                                        event.putMap("faceMesh", Arguments.createMap());
+                                    } else if (modelName.equals("meshAnnotations")) {
+                                        event.putMap("meshAnnotations", Arguments.createMap());
+                                    }
+                                }
                             }
                             WebRTCView.this.eventDispatcher.dispatchEvent(new MediaPipeEvent(WebRTCView.this.surfaceId, getId(), event));
                         }
@@ -457,6 +477,14 @@ public class WebRTCView extends ViewGroup {
             // account upon its layout.
             requestSurfaceViewRendererLayout();
         }
+    }
+
+    public void setResultTypes(ReadableArray resultTypes) {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < resultTypes.size(); i++) {
+            list.add(resultTypes.getString(i));
+        }
+        this.resultTypes = list;
     }
 
     public void setMediaPipe(boolean mediapipe) {

@@ -10,11 +10,16 @@
 #import <React/RCTView.h>
 typedef RCTDirectEventBlock (^GetRTCViewOnFaceLandmarkerBlock)(void);
 typedef BOOL (^GetRTCViewMediapipeBlock)(void);
+typedef NSArray * (^GetRTCViewResultTypeBlock)(void);
+
 
 @protocol RTCVideoRendererMidiaPipe<RTCVideoRenderer>
 - (void)renderFirstFrame:(RTCVideoFrame *)frame pixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 - (void)setGetOnFaceLandmarkerBlock:(GetRTCViewOnFaceLandmarkerBlock)getOnFaceLandmarker;
+
+- (void)setGetResultTypesBlock:(GetRTCViewResultTypeBlock)getResultTypes;
+
 - (void)setGetMediaPipeEnableBlock:(GetRTCViewMediapipeBlock)getMediaPipeEnable;
 
 

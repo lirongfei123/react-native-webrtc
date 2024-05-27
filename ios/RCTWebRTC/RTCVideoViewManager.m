@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
 @interface RTCVideoView : NSView<RTCVideoViewDelegate>
 #endif
 @property (nonatomic, copy) RCTDirectEventBlock onFaceLandmarker;
+
 /**
  * The indicator which determines whether this {@code RTCVideoView} is to mirror
  * the video specified by {@link #videoTrack} during its rendering. Typically,
@@ -55,6 +56,7 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
  */
 @property(nonatomic) BOOL mirror;
 @property(nonatomic) BOOL mediapipe;
+@property(nonatomic) NSArray* mediapipeResultType;
 
 
 /**
@@ -143,6 +145,12 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
         RTCMTLVideoViewMediaPipe *subview = [[RTCMTLVideoViewMediaPipe alloc] initWithFrame:CGRectZero];
         [subview setGetOnFaceLandmarkerBlock:^RCTDirectEventBlock{
             return self.onFaceLandmarker;
+        }];
+        [subview setGetResultTypesBlock:^NSArray *{
+            if (self.mediapipeResultType == nil) {
+                return @[@"points"];
+            }
+            return self.mediapipeResultType;
         }];
         [subview setGetMediaPipeEnableBlock:^BOOL{
             return self.mediapipe;
@@ -251,8 +259,14 @@ typedef NS_ENUM(NSInteger, RTCVideoViewObjectFit) {
     if (_onFaceLandmarker != onFaceLandmarker) {
         _onFaceLandmarker = onFaceLandmarker;
     }
-    
 }
+    
+- (void)setMediapipeResultType:(NSArray *)mediapipeResultType {
+    if (_mediapipeResultType != mediapipeResultType) {
+        _mediapipeResultType = mediapipeResultType;
+    }
+}
+    
 - (void)setMediapipe:(BOOL)mediapipe {
     if (_mediapipe != mediapipe) {
         _mediapipe = mediapipe;
@@ -410,7 +424,8 @@ RCT_EXPORT_MODULE()
 RCT_EXPORT_VIEW_PROPERTY(mirror, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(mediapipe, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onFaceLandmarker, RCTBubblingEventBlock)
-
+RCT_EXPORT_VIEW_PROPERTY(mediapipeResultType, NSArray*)
+    
 /**
  * In the fashion of
  * https://www.w3.org/TR/html5/embedded-content-0.html#dom-video-videowidth

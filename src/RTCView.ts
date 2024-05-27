@@ -61,6 +61,7 @@ interface RTCVideoViewProps extends ViewProps {
   zOrder?: number;
   onFaceLandmarker?: any
   mediapipe?: boolean
+  mediapipeResultType?: Array<string>
 }
 
 export default requireNativeComponent<RTCVideoViewProps>('RTCVideoView');
